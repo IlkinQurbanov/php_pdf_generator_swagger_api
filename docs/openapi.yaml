@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: PDF Generation API
+  description: API для генерации PDF файлов, которые содержат информацию о пользователе, дате создания, названии и описании заявки.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+    description: Локальный сервер
+
+paths:
+  /generate-pdf:
+    post:
+      summary: Генерация PDF
+      description: Создает PDF файл на основе предоставленных данных.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userName:
+                  type: string
+                  description: Имя пользователя
+                requestTitle:
+                  type: string
+                  description: Название заявки
+                requestDescription:
+                  type: string
+                  description: Описание заявки
+              required:
+                - userName
+                - requestTitle
+                - requestDescription
+      responses:
+        '200':
+          description: PDF успешно создан
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: PDF generated successfully
+                  file:
+                    type: string
+                    description: Путь к созданному PDF файлу
+        '400':
+          description: Ошибка в запросе
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid input data
